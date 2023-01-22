@@ -7,18 +7,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository struct {
-	DB *gorm.DB
+type UserRepository struct {
+	db *gorm.DB
 }
 
-func NewReposiory(db *gorm.DB) *Repository {
-	return &Repository{
-		DB: db,
+func NewReposiory(db *gorm.DB) *UserRepository {
+	return &UserRepository{
+		db: db,
 	}
 }
 
-func (r *Repository) CreateUser(user User) (uuid.UUID, error) {
-	res := r.DB.Create(&user)
+func (r *UserRepository) CreateUser(user User) (uuid.UUID, error) {
+	res := r.db.Create(&user)
 	if res.Error != nil {
 		return uuid.Nil, res.Error
 	}
@@ -26,9 +26,9 @@ func (r *Repository) CreateUser(user User) (uuid.UUID, error) {
 	return user.ID, nil
 }
 
-func (r *Repository) GetUser(id uuid.UUID) (*User, error) {
+func (r *UserRepository) GetUser(id uuid.UUID) (*User, error) {
 	var user User
-	if err := r.DB.First(&user, id).Error; err != nil {
+	if err := r.db.First(&user, id).Error; err != nil {
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
 			return nil, fmt.Errorf("user with id %s not found", id)
 		}

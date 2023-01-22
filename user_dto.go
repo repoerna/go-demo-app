@@ -9,3 +9,12 @@ type AddUserRequestBody struct {
 type AddUserResponseBody struct {
 	ID uuid.UUID `json:"id"`
 }
+
+type GetUserRequestBody struct {
+	ID   uuid.UUID `json:"id"`
+	Name string    `json:"name"`
+}
+
+type GetUserResponseBody struct {
+	ID uuid.UUID `json:"id"`
+}
